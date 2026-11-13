@@ -1,7 +1,7 @@
 <?php
 class AuthController extends Controller
 {
-	public static function __constructStatic()
+	public static function __constructStatic(): void
 	{
 		session_start();
 	}
@@ -25,16 +25,16 @@ class AuthController extends Controller
 
 	/* == register == */
 
-	public static function register()
+	public static function register(): void
 	{
 		if (self::logged()) {
-			return self::redirect('/profile/');
+			self::redirect('/profile/');
 		}
 
 		self::render('auth/register');
 	}
 
-	public static function doRegister()
+	public static function doRegister(): void
 	{
 		$name = $_POST['name'] ?? '';
 		$password = $_POST['password'] ?? '';
@@ -42,64 +42,64 @@ class AuthController extends Controller
 		$bio = $_POST['bio'] ?? '';
 
 		if (empty($name) || empty($password) || empty($repeatPassword) || empty($bio)) {
-			return self::redirect('/register/', ['message' => 'You didn\'t fill all fields.']);
+			self::redirect('/register/', ['message' => 'You didn\'t fill all fields.']);
 		}
 
 		if ($password !== $repeatPassword) {
-			return self::redirect('/register/', ['message' => 'Passwords don\'t match.']);
+			self::redirect('/register/', ['message' => 'Passwords don\'t match.']);
 		}
 
 		if (!empty(UserModel::getUserByName($name))) {
-			return self::redirect('/register/', ['message' => 'This name is already taken.']);
+			self::redirect('/register/', ['message' => 'This name is already taken.']);
 		}
 
 		UserModel::register($name, password_hash($password, PASSWORD_DEFAULT), $bio);
 
-		return self::redirect('/login/');
+		self::redirect('/login/');
 	}
 
 	/* == login == */
 
-	public static function login()
+	public static function login(): void
 	{
 		if (self::logged()) {
-			return self::redirect('/profile/');
+			self::redirect('/profile/');
 		}
 
 		self::render('auth/login');
 	}
 
-	public static function doLogin()
+	public static function doLogin(): void
 	{
 		$name = $_POST['name'] ?? '';
 		$password = $_POST['password'] ?? '';
 
 		if (empty($name) || empty($password)) {
-			return self::redirect('/login/', ['message' => 'You didn\'t fill all fields.']);
+			self::redirect('/login/', ['message' => 'You didn\'t fill all fields.']);
 		}
 
 		$user = UserModel::getUserByName($name);
 
 		if (empty($user)) {
-			return self::redirect('/login/', ['message' => 'This user doesn\'t exist.']);
+			self::redirect('/login/', ['message' => 'This user doesn\'t exist.']);
 		}
 
 		if (!password_verify($password, $user['password'])) {
-			return self::redirect('/login/', ['message' => 'Wrong password.']);
+			self::redirect('/login/', ['message' => 'Wrong password.']);
 		}
 
 		session_regenerate_id(true);
 		$_SESSION['user'] = $user['id'];
 
-		return self::redirect('/profile/');
+		self::redirect('/profile/');
 	}
 
 	/* == logout == */
 
-	public static function logout()
+	public static function logout(): void
 	{
 		unset($_SESSION['user']);
 
-		return self::redirect('/');
+		self::redirect('/');
 	}
 }

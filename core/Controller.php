@@ -8,7 +8,7 @@ class Controller
 	 * @param string $view The template name
 	 * @param array $vars Variables, which should included into the template
 	 */
-	protected static function render(string $view, array $vars = [])
+	protected static function render(string $view, array $vars = []): void
 	{
 		view($view, $vars);
 	}
@@ -20,7 +20,7 @@ class Controller
 	 * @param string $url The url
 	 * @param array $params "GET" parameters, which will be inserted into the url
 	 */
-	protected static function redirect(string $url, array $params = [])
+	protected static function redirect(string $url, array $params = []): never
 	{
 		if (empty($params)) {
 			$newUrl = $url;

@@ -3,45 +3,23 @@ require_once __DIR__ . '/core/autoload.php';
 
 /* == auth == */
 
-Router::get('/register/', function () {
-	AuthController::register();
-});
+Router::get('/register/', AuthController::register(...));
+Router::post('/register/', AuthController::doRegister(...));
 
-Router::post('/register/', function () {
-	AuthController::doRegister();
-});
+Router::get('/login/', AuthController::login(...));
+Router::post('/login/', AuthController::doLogin(...));
 
-Router::get('/login/', function () {
-	AuthController::login();
-});
-
-Router::post('/login/', function () {
-	AuthController::doLogin();
-});
-
-Router::get('/logout/', function () {
-	AuthController::logout();
-});
+Router::get('/logout/', AuthController::logout(...));
 
 /* == user == */
 
-Router::get('/', function () {
-	UserController::home();
-});
-
-Router::get('/user/{id}/', function ($id) {
-	UserController::userDetails($id);
-});
-
-Router::get('/profile/', function () {
-	UserController::profile();
-});
+Router::get('/', UserController::home(...));
+Router::get('/user/{id}/', UserController::userDetails(...));
+Router::get('/profile/', UserController::profile(...));
 
 /* == common == */
 
-Router::get('/about/', function () {
-	view('about');
-});
+Router::get('/about/', fn () => view('about'));
 
 /* == not found == */
 
