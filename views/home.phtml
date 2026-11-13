@@ -13,7 +13,7 @@
 	<?php else : ?>
 		<?php foreach ($users as $user) : ?>
 			<dd>
-				<a href="/user/<?= $user['id'] ?>/"><?= $user['name'] ?></a>
+				<a href="/user/<?= e($user['id']) ?>/"><?= e($user['name']) ?></a>
 			</dd>
 		<?php endforeach; ?>
 	<?php endif; ?>
