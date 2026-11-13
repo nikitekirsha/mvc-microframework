@@ -1,7 +1,4 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/core/Controller.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/AuthModel.php';
-
 class AuthController extends Controller
 {
 	public static function __constructStatic()
@@ -55,7 +52,7 @@ class AuthController extends Controller
 			return self::redirect('/register', ['message' => 'Passwords don\'t match.']);
 		}
 
-		AuthModel::register($name, md5($password), $bio);
+		UserModel::register($name, md5($password), $bio);
 
 		return self::redirect('/login');
 	}
@@ -80,7 +77,7 @@ class AuthController extends Controller
 			return self::redirect('/login', ['message' => 'You didn\'t fill all fields.']);
 		}
 
-		$user = AuthModel::login($name);
+		$user = UserModel::getUserByName($name);
 
 		if (empty($user)) {
 			return self::redirect('/login', ['message' => 'This user doesn\'t exist.']);
@@ -104,5 +101,3 @@ class AuthController extends Controller
 		return self::redirect('/');
 	}
 }
-
-AuthController::__constructStatic();

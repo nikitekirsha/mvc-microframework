@@ -7,5 +7,5 @@
  */
 function view(string $view)
 {
-	include "$_SERVER[DOCUMENT_ROOT]/views/$view.phtml";
+	include ROOT . "/views/$view.phtml";
 }

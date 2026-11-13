@@ -13,7 +13,7 @@ class Controller
 		extract($vars);
 		ob_start();
 
-		include "$_SERVER[DOCUMENT_ROOT]/views/$view.phtml";
+		include ROOT . "/views/$view.phtml";
 
 		echo ob_get_clean();
 	}

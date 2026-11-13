@@ -1,8 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/core/Router.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/core/helpers/view.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/controllers/AuthController.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/controllers/UserController.php';
+require_once __DIR__ . '/core/autoload.php';
 
 /* == auth == */
 

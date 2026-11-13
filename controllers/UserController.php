@@ -1,8 +1,4 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/core/Controller.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/controllers/AuthController.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/UserModel.php';
-
 class UserController extends Controller
 {
 	public static function home()

@@ -7,19 +7,25 @@ class Model
 	private static $db = null;
 
 	/**
-	 * Method which sets up the database.
+	 * Method which sets up the database on first use.
 	 *
+	 * @access private
+	 * @return PDO Database connection
 	 */
-	public static function __constructStatic()
+	private static function db(): PDO
 	{
-		if (!is_dir('database')) {
-			mkdir('database', 0777, true);
+		if (self::$db === null) {
+			if (!is_dir(ROOT . '/database')) {
+				mkdir(ROOT . '/database', 0777, true);
+			}
+
+			self::$db = new PDO('sqlite:' . ROOT . '/database/database.sqlite');
+
+			self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+			self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 
-		self::$db = new PDO("sqlite:$_SERVER[DOCUMENT_ROOT]/database/database.sqlite");
-
-		self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-		self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		return self::$db;
 	}
 
 	/**
@@ -31,7 +37,7 @@ class Model
 	 */
 	protected static function query(string $query): object
 	{
-		return self::$db->query($query);
+		return self::db()->query($query);
 	}
 
 	/**
@@ -44,11 +50,9 @@ class Model
 	 */
 	protected static function execute(string $query, array $vars = []): object
 	{
-		$stmt = self::$db->prepare($query);
+		$stmt = self::db()->prepare($query);
 		$stmt->execute($vars);
 
 		return $stmt;
 	}
 }
-
-Model::__constructStatic();
