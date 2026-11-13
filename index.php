@@ -42,3 +42,9 @@ Router::get('/profile/', function () {
 Router::get('/about/', function () {
 	view('about');
 });
+
+/* == not found == */
+
+// A matched route stops the script, so we get here only if nothing matched
+http_response_code(404);
+view('404');

@@ -1,7 +1,7 @@
 <h1>Home page</h1>
 <a href="/about/">About</a>
 <?php if ($logged) : ?>
-	<p>Oh, it seems you have been logged in! Why don't you come up to see your <a href="/profile">profile</a>?</p>
+	<p>Oh, it seems you have been logged in! Why don't you come up to see your <a href="/profile/">profile</a>?</p>
 <?php else : ?>
 	<a href="/login/">Login</a>
 	<a href="/register/">Register</a>
@@ -13,7 +13,7 @@
 	<?php else : ?>
 		<?php foreach ($users as $user) : ?>
 			<dd>
-				<a href="/user/<?= $user['id'] ?>"><?= $user['name'] ?></a>
+				<a href="/user/<?= $user['id'] ?>/"><?= $user['name'] ?></a>
 			</dd>
 		<?php endforeach; ?>
 	<?php endif; ?>

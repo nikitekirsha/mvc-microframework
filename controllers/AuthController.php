@@ -31,7 +31,7 @@ class AuthController extends Controller
 	public static function register()
 	{
 		if (self::logged()) {
-			return self::redirect('/profile');
+			return self::redirect('/profile/');
 		}
 
 		self::render('auth/register');
@@ -45,16 +45,16 @@ class AuthController extends Controller
 		$bio = $_POST['bio'];
 
 		if (empty($name) || empty($password) || empty($repeatPassword) || empty($bio)) {
-			return self::redirect('/register', ['message' => 'You didn\'t fill all fields.']);
+			return self::redirect('/register/', ['message' => 'You didn\'t fill all fields.']);
 		}
 
 		if ($password !== $repeatPassword) {
-			return self::redirect('/register', ['message' => 'Passwords don\'t match.']);
+			return self::redirect('/register/', ['message' => 'Passwords don\'t match.']);
 		}
 
 		UserModel::register($name, md5($password), $bio);
 
-		return self::redirect('/login');
+		return self::redirect('/login/');
 	}
 
 	/* == login == */
@@ -62,7 +62,7 @@ class AuthController extends Controller
 	public static function login()
 	{
 		if (self::logged()) {
-			return self::redirect('/profile');
+			return self::redirect('/profile/');
 		}
 
 		self::render('auth/login');
@@ -74,22 +74,22 @@ class AuthController extends Controller
 		$password = $_POST['password'];
 
 		if (empty($name) || empty($password)) {
-			return self::redirect('/login', ['message' => 'You didn\'t fill all fields.']);
+			return self::redirect('/login/', ['message' => 'You didn\'t fill all fields.']);
 		}
 
 		$user = UserModel::getUserByName($name);
 
 		if (empty($user)) {
-			return self::redirect('/login', ['message' => 'This user doesn\'t exist.']);
+			return self::redirect('/login/', ['message' => 'This user doesn\'t exist.']);
 		}
 
 		if (md5($password) !== $user['password']) {
-			return self::redirect('/login', ['message' => 'Wrong password.']);
+			return self::redirect('/login/', ['message' => 'Wrong password.']);
 		}
 
 		$_SESSION['user'] = $user;
 
-		return self::redirect('/profile');
+		return self::redirect('/profile/');
 	}
 
 	/* == logout == */
