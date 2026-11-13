@@ -3,21 +3,21 @@
 <h1>Home page</h1>
 <a href="/about/">About</a>
 
-<?php if ($logged) : ?>
+<?php if ($logged) { ?>
 	<p>Oh, it seems you have been logged in! Why don't you come up to see your <a href="/profile/">profile</a>?</p>
-<?php else : ?>
+<?php } else { ?>
 	<a href="/login/">Login</a>
 	<a href="/register/">Register</a>
-<?php endif; ?>
+<?php } ?>
 <dl>
 	<dt>Users</dt>
-	<?php if (empty($users)) : ?>
+	<?php if (empty($users)) { ?>
 		<dd>There's no users yet.</dd>
-	<?php else : ?>
-		<?php foreach ($users as $user) : ?>
+	<?php } else { ?>
+		<?php foreach ($users as $user) { ?>
 			<dd>
 				<a href="/user/<?= e($user['id']) ?>/"><?= e($user['name']) ?></a>
 			</dd>
-		<?php endforeach; ?>
-	<?php endif; ?>
+		<?php } ?>
+	<?php } ?>
 </dl>

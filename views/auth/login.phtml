@@ -5,9 +5,9 @@ $message = $_GET['message'] ?? '';
 
 <a href="/">Back</a>
 <h1>Login page</h1>
-<?php if (!empty($message)) : ?>
+<?php if (!empty($message)) { ?>
 	<p><?= e($message) ?></p>
-<?php endif; ?>
+<?php } ?>
 <form method="post">
 	<input required type="text" placeholder="Name" name="name">
 	<input required type="password" placeholder="Password" name="password">
