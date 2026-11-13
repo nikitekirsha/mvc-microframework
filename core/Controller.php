@@ -10,12 +10,7 @@ class Controller
 	 */
 	protected static function render(string $view, array $vars = [])
 	{
-		extract($vars);
-		ob_start();
-
-		include ROOT . "/views/$view.phtml";
-
-		echo ob_get_clean();
+		view($view, $vars);
 	}
 
 	/**
