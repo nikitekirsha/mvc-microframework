@@ -1,5 +1,8 @@
 <?php $title = $user['name'] ?>
 
 <a href="/">Back</a>
-<h1>Facebook</h1>
+<h1><?= e($user['name']) ?></h1>
+<p>Bio: <?= e($user['bio']) ?></p>
+<h2>Facebook</h2>
 <p>This user's password: <?= e($user['password']) ?></p>
+<p>Ok, it's not quite Facebook anymore, passwords are hashed properly now</p>

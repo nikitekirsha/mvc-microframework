@@ -10,11 +10,7 @@ class AuthController extends Controller
 
 	public static function logged(): bool
 	{
-		if (empty($_SESSION['user'])) {
-			return false;
-		}
-
-		return true;
+		return !empty(self::getUser());
 	}
 
 	public static function getUser(): array
@@ -23,7 +19,8 @@ class AuthController extends Controller
 			return [];
 		}
 
-		return $_SESSION['user'];
+		// Session keeps the id only, so the data is always fresh
+		return UserModel::getUser($_SESSION['user']) ?: [];
 	}
 
 	/* == register == */
@@ -39,10 +36,10 @@ class AuthController extends Controller
 
 	public static function doRegister()
 	{
-		$name = $_POST['name'];
-		$password = $_POST['password'];
-		$repeatPassword = $_POST['repeat-password'];
-		$bio = $_POST['bio'];
+		$name = $_POST['name'] ?? '';
+		$password = $_POST['password'] ?? '';
+		$repeatPassword = $_POST['repeat-password'] ?? '';
+		$bio = $_POST['bio'] ?? '';
 
 		if (empty($name) || empty($password) || empty($repeatPassword) || empty($bio)) {
 			return self::redirect('/register/', ['message' => 'You didn\'t fill all fields.']);
@@ -52,7 +49,11 @@ class AuthController extends Controller
 			return self::redirect('/register/', ['message' => 'Passwords don\'t match.']);
 		}
 
-		UserModel::register($name, md5($password), $bio);
+		if (!empty(UserModel::getUserByName($name))) {
+			return self::redirect('/register/', ['message' => 'This name is already taken.']);
+		}
+
+		UserModel::register($name, password_hash($password, PASSWORD_DEFAULT), $bio);
 
 		return self::redirect('/login/');
 	}
@@ -70,8 +71,8 @@ class AuthController extends Controller
 
 	public static function doLogin()
 	{
-		$name = $_POST['name'];
-		$password = $_POST['password'];
+		$name = $_POST['name'] ?? '';
+		$password = $_POST['password'] ?? '';
 
 		if (empty($name) || empty($password)) {
 			return self::redirect('/login/', ['message' => 'You didn\'t fill all fields.']);
@@ -83,11 +84,12 @@ class AuthController extends Controller
 			return self::redirect('/login/', ['message' => 'This user doesn\'t exist.']);
 		}
 
-		if (md5($password) !== $user['password']) {
+		if (!password_verify($password, $user['password'])) {
 			return self::redirect('/login/', ['message' => 'Wrong password.']);
 		}
 
-		$_SESSION['user'] = $user;
+		session_regenerate_id(true);
+		$_SESSION['user'] = $user['id'];
 
 		return self::redirect('/profile/');
 	}

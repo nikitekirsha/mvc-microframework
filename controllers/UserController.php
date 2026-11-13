@@ -22,11 +22,11 @@ class UserController extends Controller
 
 	public static function profile()
 	{
-		if (!AuthController::logged()) {
+		$user = AuthController::getUser();
+
+		if (empty($user)) {
 			return self::redirect('/');
 		}
-
-		$user = AuthController::getUser();
 
 		self::render('profile', ['user' => $user]);
 	}
